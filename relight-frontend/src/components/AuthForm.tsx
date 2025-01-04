@@ -32,13 +32,14 @@ const AuthForm = ({action}: Prop) => {
 
     const handleSubmit = () => {
 
+
     };
 
     return (
     <>
         <form onSubmit={handleSubmit}>
-        <h2>{name}</h2> 
             {name && <>
+                <h2>{action}</h2> 
                 <label htmlFor="username">Enter Username: </label> <br />
                 <input type="text" name="username" id="" placeholder="Username" value={loginData.username} onChange={handleChange}/> <br />
                 <label htmlFor="password">Enter Password: </label> <br />
@@ -46,7 +47,7 @@ const AuthForm = ({action}: Prop) => {
             </>
             }
             {!name && <>
-                <h2>Register</h2> 
+                <h2>{action}</h2> 
                 <label htmlFor="username">Enter Username: </label> <br />
                 <input type="text" name="username" id="" placeholder="Username" value={registerData.username} onChange={handleChange}/> <br />
                 <label htmlFor="email">Enter Email: </label> <br />
