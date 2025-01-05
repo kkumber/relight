@@ -21,7 +21,7 @@ const AuthForm = ({action}: Prop) => {
     const [registerData, setRegisterData] = useState({
         username: '',
         email: '',
-        password: '',
+        password1: '',
         password2: '',
     });
 
@@ -112,12 +112,12 @@ const AuthForm = ({action}: Prop) => {
                         value={registerData.email}
                         onChange={handleChangeRegisterData}
                     /> <br />
-                    <label htmlFor="password">Enter Password: </label> <br />
+                    <label htmlFor="password1">Enter Password: </label> <br />
                     <input
                         type="password"
-                        name="password"
+                        name="password1"
                         placeholder="Password"
-                        value={registerData.password}
+                        value={registerData.password1}
                         onChange={handleChangeRegisterData}
                     /> <br />
                     <label htmlFor="password2">Confirm Password: </label> <br />

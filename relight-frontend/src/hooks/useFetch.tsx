@@ -11,7 +11,7 @@ interface UserAuth {
 interface UserRegisterData {
     username: string,
     email: string,
-    password: string,
+    password1: string,
     password2: string,
 }
 
@@ -58,6 +58,7 @@ const useFetch = () => {
         setIsLoading(true);
         setError(null);
         try {
+            console.log(registerData);
             const res = await api.post('accounts/register/', registerData);
             setData(res.data);
         } catch (err) {
