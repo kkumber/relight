@@ -1,4 +1,4 @@
-import api from "../api";
+import api from "../utils/api";
 import { useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
@@ -8,33 +8,68 @@ interface UserAuth {
     password: string,
 }
 
+interface UserRegisterData {
+    username: string,
+    email: string,
+    password: string,
+    password2: string,
+}
+
+
 const useFetch = () => {
-    const [data, setData] = useState()
-    const [isLoading, setIsLoading] = useState<boolean>()
-    const [error, setError] = useState<any>()
+    const [data, setData] = useState();
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [error, setError] = useState<any>();
 
     // Needs form to send data over
-    const getToken = async ({username, password}: UserAuth) => {
+    const getToken = async (loginData: UserAuth) => {
+        setIsLoading(true);
+        setError(null);
         try {
-            const res = await api.post('accounts/auth/login/', {username, password});
+            const res = await api.post('accounts/auth/login/', loginData);
             setData(res.data);
-        } catch (error) {
-            setError(error);
+        } catch (err: any) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const getRefreshToken = async () => {
+        setIsLoading(true);
+        setError(null);
         try {
             const res = await api.post('accounts/auth/token/refresh/', {}, {
                 withCredentials: true,
             });
             setData(res.data);
-        } catch (error) {
-            setError(error);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    return {data, isLoading, error};
+    const registerUser = async (registerData: UserRegisterData ) => {
+        setIsLoading(true);
+        setError(null);
+        try {
+            const res = await api.post('accounts/register/', registerData);
+            setData(res.data);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return {data, isLoading, error, getToken, getRefreshToken, registerUser};
 };
  
 export default useFetch;

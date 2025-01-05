@@ -2,7 +2,7 @@ import AuthForm from "../components/AuthForm";
 
 const Login = () => {
     return ( 
-        <AuthForm action={'Login'} />
+        <AuthForm action={'Login'} url="accounts/auth/login/"/>
      );
 }
  
