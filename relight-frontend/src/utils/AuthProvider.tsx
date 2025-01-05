@@ -17,3 +17,5 @@ const AuthProvider = ({children}: any) => {
   </UserContext.Provider>
   );
 };
+
+export default AuthProvider;

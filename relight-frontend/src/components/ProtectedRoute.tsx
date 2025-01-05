@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
 import useFetch from "../hooks/useFetch";
+import AuthProvider from "../utils/AuthProvider";
 
 
 const ProtectedRoute = ({children}: any) => {
