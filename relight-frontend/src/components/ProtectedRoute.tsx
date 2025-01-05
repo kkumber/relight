@@ -1,11 +1,24 @@
-import { useState } from "react";
-import {ACCESS_TOKEN, REFRESH_TOKEN} from '../utils/constants';
+import { useEffect, useState, useContext } from "react";
 import { jwtDecode } from "jwt-decode";
-import api from "../utils/api";
+import useFetch from "../hooks/useFetch";
+import AuthProvider from "../utils/AuthProvider";
 
 
 const ProtectedRoute = ({children}: any) => {
+    const {data, isLoading, error, getRefreshToken} = useFetch()
 
+    const refreshToken = async () => {
+        await getRefreshToken();
+    };
+
+    useEffect(() => {
+        console.log(data);
+    }, [data])
+
+    return (
+        <>
+        </>
+    )
 }
  
 export default ProtectedRoute;
