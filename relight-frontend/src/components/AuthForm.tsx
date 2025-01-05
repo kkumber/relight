@@ -54,11 +54,7 @@ const AuthForm = ({action}: Prop) => {
 
     const handleRegister = async (e: any) => {
         e.preventDefault();
-        for (const [key, value] of Object.entries(registerData)) {
-            if (value !== '') {
-                await registerUser(registerData);
-            };
-        };
+        await registerUser(registerData);
     };
 
     useEffect(() => {
@@ -80,6 +76,7 @@ const AuthForm = ({action}: Prop) => {
                         type="text"
                         name="username"
                         placeholder="Username"
+                        required={true}
                         value={loginData.username}
                         onChange={handleChangeLoginData}
                     /> <br />
@@ -88,6 +85,7 @@ const AuthForm = ({action}: Prop) => {
                         type="password"
                         name="password"
                         placeholder="Password"
+                        required={true}
                         value={loginData.password}
                         onChange={handleChangeLoginData}
                     /> <br />
@@ -101,6 +99,7 @@ const AuthForm = ({action}: Prop) => {
                         type="text"
                         name="username"
                         placeholder="Username"
+                        required={true}
                         value={registerData.username}
                         onChange={handleChangeRegisterData}
                     /> <br />
@@ -117,6 +116,7 @@ const AuthForm = ({action}: Prop) => {
                         type="password"
                         name="password1"
                         placeholder="Password"
+                        required={true}
                         value={registerData.password1}
                         onChange={handleChangeRegisterData}
                     /> <br />
@@ -125,6 +125,7 @@ const AuthForm = ({action}: Prop) => {
                         type="password"
                         name="password2"
                         placeholder="Confirm Password"
+                        required={true}
                         value={registerData.password2}
                         onChange={handleChangeRegisterData}
                     /> <br />
