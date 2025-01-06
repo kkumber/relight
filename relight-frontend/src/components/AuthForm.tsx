@@ -1,17 +1,20 @@
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import ErrorMsg from "./ErrorMsg";
+import UserContext from "../utils/AuthProvider"
+import AccessTokenContext from "../utils/AuthProvider"
 
 
 interface Prop {
-    action: string,
-    url: string,
+    action: string
 }
 
 
 const AuthForm = ({action}: Prop) => {
     const {data, isLoading, error, getToken, getRefreshToken, registerUser} = useFetch();
+    const {user, setUser} = useContext(UserContext);
+    const {accessToken, setAccessToken} = useContext(AccessTokenContext);
 
     const [loginData, setLoginData] = useState({
         username: '',
@@ -59,7 +62,8 @@ const AuthForm = ({action}: Prop) => {
 
     useEffect(() => {
         if (data) {
-            console.log(data);
+            setUser(data.user);
+            setAccessToken(data.access_token);
         }
     }, [data]);
 
