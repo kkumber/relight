@@ -17,7 +17,7 @@ const ProtectedRoute = () => {
     const nav = useNavigate();
 
     const refreshToken = async () => {
-        if (user && accessToken) {
+        if (accessToken) {
             await getRefreshToken();
         }
     };
@@ -42,7 +42,7 @@ const ProtectedRoute = () => {
         }
     }, [data])
 
-    const render = accessToken && user ? <Outlet /> : <Navigate to='/login' />;
+    const render = accessToken ? <Outlet /> : <Navigate to='/login' />;
     return render;
 }
  

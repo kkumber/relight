@@ -3,6 +3,7 @@ import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import ErrorMsg from "./ErrorMsg";
 import { useAccessTokenContext, useUserContext, useCSRFTokenContext } from "../utils/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 
 interface Prop {
@@ -13,6 +14,7 @@ const AuthForm = ({action}: Prop) => {
     const {data, isLoading, error, getToken, getRefreshToken, registerUser}: any = useFetch();
     const {user, setUser} = useUserContext();
     const {accessToken, setAccessToken} = useAccessTokenContext();
+    const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
         username: '',
@@ -43,23 +45,29 @@ const AuthForm = ({action}: Prop) => {
         setRegisterData({
             ...registerData,
             [name]: value,
-        })
+        });
     }
 
     const handleLogin = async (e: any) => {
         e.preventDefault();
         if (loginData.username !== '' && loginData.password !== '') {
             await getToken(loginData);
+            navigate('/');
         }
     };
 
     const handleRegister = async (e: any) => {
         e.preventDefault();
         await registerUser(registerData);
+        navigate('/login');
+
     };
 
     useEffect(() => {
-        console.log(data);
+        if (data) {
+            console.log(data);
+            setAccessToken(data.access_token);
+        }
     }, [data]);
 
     return (
