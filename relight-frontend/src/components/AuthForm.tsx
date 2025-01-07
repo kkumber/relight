@@ -59,10 +59,7 @@ const AuthForm = ({action}: Prop) => {
     };
 
     useEffect(() => {
-        if (data.user && data.access_token) {
-            setUser(data.user);
-            setAccessToken(data.access_token);
-        };
+        console.log(data);
     }, [data]);
 
     return (
