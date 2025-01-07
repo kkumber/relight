@@ -24,25 +24,26 @@ const ProtectedRoute = () => {
         };
 
         return config;
-    });
+    }, (error) => {
+        return Promise.reject(error);
+    }
+);
 
     const refreshToken = async () => {
         await getRefreshToken();
+        setAccessToken(data.access_token);
     };
 
-    const expiringToken = () => {
+    const auth = () => {
         console.log(accessToken);
         if (accessToken) {
             const decoded = jwtDecode(accessToken);
             const expTime = decoded.exp;
-            const now = Date.now();
-            console.log(decoded);
-            console.log(expTime);
-            console.log(now)
-            if (expTime) {
-                if (expTime < now / 1000) {
-                    refreshToken();
-                }
+            const now = Date.now() / 1000;
+            if (expTime! < now) {
+                refreshToken();
+            } else {
+                nav('/login');
             }
         } else {
             return nav('/login');
@@ -50,10 +51,8 @@ const ProtectedRoute = () => {
     };
 
     useEffect(() => {
-        if (data) {
-            setAccessToken(data.access_token);
-        }
-    }, [data])
+        auth();
+    }, [])
 
     const render = accessToken ? <Outlet /> : <Navigate to='/login' />;
     return render;

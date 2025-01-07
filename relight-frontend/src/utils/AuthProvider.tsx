@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, createContext, ReactNode } from "react";
 
 // Define the types for the context values
-export type UserType = any | null;
+export type UserType = object | null;
 export type AccessTokenType = string | null;
 export type CSRFTokenType = string | null;
 
