@@ -65,7 +65,7 @@ const AuthForm = ({action}: Prop) => {
 
     useEffect(() => {
         if (data) {
-            console.log(data);
+            
             setAccessToken(data.access_token);
         }
     }, [data]);

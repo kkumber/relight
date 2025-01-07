@@ -46,9 +46,7 @@ interface CSRFTokenContextType {
   setcsrf_token: React.Dispatch<React.SetStateAction<CSRFTokenType>>;
 }
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
+
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 const AccessTokenContext = createContext<AccessTokenContextType | undefined>(undefined);
