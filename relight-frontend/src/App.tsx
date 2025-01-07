@@ -14,9 +14,9 @@ function App() {
   <BrowserRouter> 
     <Routes>
       <AuthProvider>
-        <ProtectedRoute>
-
-        </ProtectedRoute>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Home />} />
+        </Route>
       </AuthProvider>
 
 

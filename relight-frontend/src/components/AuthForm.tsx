@@ -9,9 +9,8 @@ interface Prop {
     action: string
 }
 
-
 const AuthForm = ({action}: Prop) => {
-    const {data, isLoading, error, getToken, getRefreshToken, registerUser} = useFetch();
+    const {data, isLoading, error, getToken, getRefreshToken, registerUser}: any = useFetch();
     const {user, setUser} = useUserContext();
     const {accessToken, setAccessToken} = useAccessTokenContext();
 

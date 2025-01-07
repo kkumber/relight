@@ -6,13 +6,15 @@ import UserContext, { useAccessTokenContext, useUserContext } from "../utils/Aut
 import AccessTokenContext from "../utils/AuthProvider"
 import Login from "../pages/Login";
 import { UserType, AccessTokenType, CSRFTokenType } from "../utils/AuthProvider";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
 
 
-const ProtectedRoute = ({children}: any) => {
+const ProtectedRoute = () => {
     const {data, isLoading, error, getRefreshToken} = useFetch();
     const {user, setUser} = useUserContext();
     const {accessToken, setAccessToken} = useAccessTokenContext();
+    const nav = useNavigate();
 
     const refreshToken = async () => {
         if (user && accessToken) {
@@ -29,7 +31,9 @@ const ProtectedRoute = ({children}: any) => {
             if (expTime! < now / 1000) {
                 refreshToken();
             }
-        }  
+        } else {
+            return nav('/login');
+        }
     };
 
     useEffect(() => {
@@ -38,7 +42,7 @@ const ProtectedRoute = ({children}: any) => {
         }
     }, [data])
 
-    const render = accessToken && user ? {children} : <Login />
+    const render = accessToken && user ? <Outlet /> : <Navigate to='/login' />;
     return render;
 }
  
