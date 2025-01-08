@@ -1,5 +1,6 @@
-import api from "../utils/api";
+import useApi from "../utils/api";
 import { useState, createContext } from "react";
+import { useAccessTokenContext, useUserContext, useCSRFTokenContext } from "../utils/AuthProvider";
 
 
 interface UserAuth {
@@ -16,9 +17,13 @@ interface UserRegisterData {
 
 
 const useFetch = () => {
+    const api = useApi();
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>();
+    const {accessToken, setAccessToken} = useAccessTokenContext();
+    const {csrf_token, setcsrf_token} = useCSRFTokenContext();
+    const {user, setUser} = useUserContext();
 
     // Needs form to send data over
     const getToken = async (loginData: UserAuth) => {
@@ -27,6 +32,8 @@ const useFetch = () => {
         try {
             const res = await api.post('accounts/auth/login/', loginData);
             setData(res.data);
+            setAccessToken(res.data.access_token);
+            setcsrf_token(res.data.csrf_token);
         } catch (err: any) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -45,6 +52,7 @@ const useFetch = () => {
                 withCredentials: true,
             });
             setData(res.data);
+            setAccessToken(res.data.access_token);
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);

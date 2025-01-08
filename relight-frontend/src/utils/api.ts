@@ -1,24 +1,31 @@
 import axios from 'axios'
-import {ACCESS_TOKEN} from './constants'
+import { useAccessTokenContext } from './AuthProvider';
 
-const api = axios.create({
+const useApi = () => {
+
+  const {accessToken} = useAccessTokenContext();
+
+  const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     headers: {
         'Content-Type': 'application/json',
       },
 });
 
-// api.interceptors.request.use((config) => {
-//     // store token in context after log in
-//     const token = localStorage.getItem(ACCESS_TOKEN);
-//     if (token) {
-//         config.headers['Authorization'] = `Bearer ${token}`
-//     };
-//     return config;
-// },
-//     (error) => {
-//         return Promise.reject(error);
-//     }
-// );
+  api.interceptors.request.use((config) => {
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  });
 
-export default api;
+  return api;
+};
+
+
+export default useApi;
+
+
