@@ -15,6 +15,10 @@ interface UserRegisterData {
     password2: string,
 }
 
+interface PostData {
+    url: string,
+    data: object,
+}
 
 const useFetch = () => {
     const api = useApi();
@@ -34,7 +38,7 @@ const useFetch = () => {
             setData(res.data);
             setAccessToken(res.data.access_token);
             setcsrf_token(res.data.csrf_token);
-        } catch (err: any) {
+        } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
             }
@@ -78,7 +82,39 @@ const useFetch = () => {
         }
     };
 
-    return {data, isLoading, error, getToken, getRefreshToken, registerUser};
+    const fetchData = async (url: string) => {
+        setIsLoading(false);
+        setError(null);
+        try {
+            const res = await api.get(url);
+            setData(res.data);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const postData = async ({url, data}: PostData) => {
+        setIsLoading(false);
+        setError(null);
+        try {
+            const res = await api.post(url, data, {
+                headers: {'Content-type': 'multipart/form-data'}
+            });
+            setData(res.data);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return {data, isLoading, error, getToken, getRefreshToken, registerUser, fetchData, postData};
 };
  
 export default useFetch;
