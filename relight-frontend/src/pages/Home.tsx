@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useFetch from "../hooks/useFetch";
+import AddBookForm from "../components/AddBookForm";
 
 
 
@@ -18,7 +19,11 @@ const Home = () => {
 
     return ( <div className="home">
         Home
+        <section>
+            <h2>Submit a Book</h2>
+            <AddBookForm />
+        </section>
     </div> );
 }
- 
+
 export default Home;

@@ -97,7 +97,7 @@ const useFetch = () => {
         }
     };
 
-    const postData = async ({url, data}: PostData) => {
+    const postData = async (url: string, data: object) => {
         setIsLoading(false);
         setError(null);
         try {

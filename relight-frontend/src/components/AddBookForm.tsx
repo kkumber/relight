@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useFetch from "../hooks/useFetch";
 
 const AddBookForm = () => {
   const [bookForm, setBookForm] = useState({
@@ -8,8 +9,9 @@ const AddBookForm = () => {
   });
 
   // This 2 values are for file submits (pdf files and images)
-  const pdf_file = '';
-  const book_cover = '';
+  const [pdf_File, setPdf_File] = useState<File>();
+  const [book_Cover, setBook_Cover] = useState<File>();
+  const {data, isLoading, Error, fetchData, postData} = useFetch();
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,13 +23,45 @@ const AddBookForm = () => {
     });
   }
 
+  const handlePDFChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setPdf_File(e.target.files[0]);
+    }
+  };
+
+  const handleBookCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setPdf_File(e.target.files[0]);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    for (let [key, value] of Object.entries(bookForm)){
+      formData.append(key, value);
+    }
+    formData.append('pdf_file', pdf_File!);
+    formData.append('book_cover', book_Cover || '')
+
+    await postData('library/books/', formData);
+  }
+
   return (
-    <form action="">
-      <input type="text" name="title" onChange={handleChange} value={bookForm.title} />
-      <input type="text" name="author" onChange={handleChange} value={bookForm.author} />
-      <input type="text" name="sypnosis" onChange={handleChange} value={bookForm.sypnosis} />
-      <input type="file" name="pdf_file" />
-      <input type="file" name="book_cover" />
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="title">Title: </label> <br />
+      <input type="text" name="title" onChange={handleChange} value={bookForm.title} /> <br />
+      <label htmlFor="author">Author: </label> <br />
+      <input type="text" name="author" onChange={handleChange} value={bookForm.author} /> <br />
+      <label htmlFor="sypnosis">Sypnosis: </label>
+      <input type="text" name="sypnosis" onChange={handleChange} value={bookForm.sypnosis} /> <br />
+      <label htmlFor="pdf_file">Upload PDF: </label>
+      <input type="file" name="pdf_file" required={true} onChange={handlePDFChange} /> <br />
+      <label htmlFor="book_cover">Upload Book Cover: </label>
+      <input type="file" name="book_cover" onChange={handleBookCoverChange} /> 
+      <button>Submit</button>
     </form>
   );
 };

@@ -16,6 +16,7 @@ const ProtectedRoute = () => {
         await getRefreshToken();
     };
 
+    // PRoblem: Context refreshes when page reloads
     const auth = () => {
         if (accessToken) {
             const decoded = jwtDecode(accessToken);
@@ -24,6 +25,7 @@ const ProtectedRoute = () => {
             if (expTime! < now) {
                 refreshToken();
             }
+            return nav('/');
         } else {
             return nav('/login');
         }
