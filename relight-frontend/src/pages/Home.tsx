@@ -1,21 +1,23 @@
 import { useEffect } from "react";
-import { useAccessTokenContext, useUserContext } from "../utils/AuthProvider"
+import useFetch from "../hooks/useFetch";
+
 
 
 const Home = () => {
-    const {user, setUser} = useUserContext();
-    const {accessToken, setAccessToken} = useAccessTokenContext();
-
+    const {data, isLoading, error, fetchData} = useFetch();
 
     useEffect(() => {
-        if(accessToken) {
-            console.log(accessToken)
-        }
-    }, [accessToken])
+        fetchData('library/books/');
+    }, []);
 
+    useEffect(() => {
+        if (data) {
+            console.log(data);
+        }
+    }, [data])
 
     return ( <div className="home">
-        
+        Home
     </div> );
 }
  

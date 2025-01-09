@@ -1,5 +1,6 @@
-import api from "../utils/api";
+import useApi from "../utils/api";
 import { useState, createContext } from "react";
+import { useAccessTokenContext, useUserContext, useCSRFTokenContext } from "../utils/AuthProvider";
 
 
 interface UserAuth {
@@ -14,11 +15,19 @@ interface UserRegisterData {
     password2: string,
 }
 
+interface PostData {
+    url: string,
+    data: object,
+}
 
 const useFetch = () => {
+    const api = useApi();
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<any>();
+    const {accessToken, setAccessToken} = useAccessTokenContext();
+    const {csrf_token, setcsrf_token} = useCSRFTokenContext();
+    const {user, setUser} = useUserContext();
 
     // Needs form to send data over
     const getToken = async (loginData: UserAuth) => {
@@ -27,7 +36,9 @@ const useFetch = () => {
         try {
             const res = await api.post('accounts/auth/login/', loginData);
             setData(res.data);
-        } catch (err: any) {
+            setAccessToken(res.data.access_token);
+            setcsrf_token(res.data.csrf_token);
+        } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
             }
@@ -45,6 +56,7 @@ const useFetch = () => {
                 withCredentials: true,
             });
             setData(res.data);
+            setAccessToken(res.data.access_token);
         } catch (err) {
             if (err instanceof Error) {
                 setError(err.message);
@@ -70,7 +82,39 @@ const useFetch = () => {
         }
     };
 
-    return {data, isLoading, error, getToken, getRefreshToken, registerUser};
+    const fetchData = async (url: string) => {
+        setIsLoading(false);
+        setError(null);
+        try {
+            const res = await api.get(url);
+            setData(res.data);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const postData = async ({url, data}: PostData) => {
+        setIsLoading(false);
+        setError(null);
+        try {
+            const res = await api.post(url, data, {
+                headers: {'Content-type': 'multipart/form-data'}
+            });
+            setData(res.data);
+        } catch (err) {
+            if (err instanceof Error) {
+                setError(err.message);
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return {data, isLoading, error, getToken, getRefreshToken, registerUser, fetchData, postData};
 };
  
 export default useFetch;

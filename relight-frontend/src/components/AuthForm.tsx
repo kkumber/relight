@@ -2,7 +2,6 @@ import { useEffect, useState, useContext } from "react";
 import useFetch from "../hooks/useFetch";
 import Loading from "./Loading";
 import ErrorMsg from "./ErrorMsg";
-import { useAccessTokenContext, useUserContext, useCSRFTokenContext } from "../utils/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 
@@ -11,9 +10,8 @@ interface Prop {
 }
 
 const AuthForm = ({action}: Prop) => {
-    const {data, isLoading, error, getToken, getRefreshToken, registerUser}: any = useFetch();
-    const {user, setUser} = useUserContext();
-    const {accessToken, setAccessToken} = useAccessTokenContext();
+    const {data, isLoading, error, getToken, registerUser}: any = useFetch();
+
     const navigate = useNavigate();
 
     const [loginData, setLoginData] = useState({
@@ -63,11 +61,6 @@ const AuthForm = ({action}: Prop) => {
 
     };
 
-    useEffect(() => {
-        if (data) {
-            setAccessToken(data.access_token);
-        }
-    }, [data]);
 
     return (
         <>
