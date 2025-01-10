@@ -11,7 +11,7 @@ const AddBookForm = () => {
   // This 2 values are for file submits (pdf files and images)
   const [pdf_File, setPdf_File] = useState<File>();
   const [book_Cover, setBook_Cover] = useState<File>();
-  const {data, isLoading, Error, fetchData, postData} = useFetch();
+  const {data, isLoading, error, fetchData, postData} = useFetch();
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +61,7 @@ const AddBookForm = () => {
       <input type="file" name="pdf_file" required={true} onChange={handlePDFChange} /> <br />
       <label htmlFor="book_cover">Upload Book Cover: </label>
       <input type="file" name="book_cover" onChange={handleBookCoverChange} /> 
-      <button>Submit</button>
+      <br /><button>Submit</button>
     </form>
   );
 };
