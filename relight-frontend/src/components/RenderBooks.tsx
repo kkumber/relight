@@ -1,4 +1,6 @@
-import Data from "../pages/Home"
+import { useEffect } from "react";
+import FetchData from "../pages/Home"
+import { Link } from "react-router-dom";
 
 
 export interface Book {
@@ -10,23 +12,24 @@ export interface Book {
     uploaded_by: string,
     book_cover: string,
     pdf_file: File
+    slug: string,
 }
 
-const RenderBooks = ({data}: Data) => {
+interface BookData {
+  book: Book
+}
 
+const RenderBooks = ({book}: BookData) => {
 
   return (
-    book_list.map(book => {
-        <article key={book.id}>
+        <article>
+            <Link to={`/details/${book.slug}`}>
             <h3>{book.title}</h3>
+            </Link>
             <img src={book.book_cover} alt={book.title} />
-            <p>Sypnosis: {book.sypnosis} </p>
             <p>Written by: {book.author} </p>
             <p>Upload Date: {book.upload_date} </p>
-            <p>Uploaded by: {book.uploaded_by} </p>
         </article>
-    })
-
   );
 };
 

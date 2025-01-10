@@ -28,7 +28,7 @@ export interface FetchReturns {
 const useFetch = () => {
     const api = useApi();
     const [data, setData] = useState();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<any>();
     const {accessToken, setAccessToken} = useAccessTokenContext();
     const {csrf_token, setcsrf_token} = useCSRFTokenContext();

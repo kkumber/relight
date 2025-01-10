@@ -4,11 +4,8 @@ import AddBookForm from "../components/AddBookForm";
 import RenderBooks from "../components/RenderBooks";
 import { Book } from "../components/RenderBooks";
 
-interface BookList {
-    results: Book[]
-}
 
-export interface Data {
+export interface FetchData {
     count: number,
     next: undefined,
     previous: undefined,
@@ -18,7 +15,7 @@ export interface Data {
 
 const Home = () => {
     const {data: returns, isLoading, error, fetchData} = useFetch();
-    const [data, setData] = useState<Data>();
+    const [bookList, setBookList] = useState<FetchData>();
 
     useEffect(() => {
         fetchData('library/books/');
@@ -26,7 +23,8 @@ const Home = () => {
 
     useEffect(() => {
         if (returns) {
-            setData(returns);
+            setBookList(returns);
+            console.log(returns)
         };
     }, [returns])
 
@@ -40,7 +38,13 @@ const Home = () => {
 
         <section>
             <h2>Browse</h2>
-            <RenderBooks data={data} />
+            {
+                bookList?.results.map(book => 
+                    <div key={book.id}>
+                        <RenderBooks book={book} />
+                    </div>
+                )
+            }
         </section>
     </div> );
 }
