@@ -26,6 +26,8 @@ export interface FetchReturns {
 }
 
 const useFetch = () => {
+    //Might have to seperate fetch for authFetch, generics, etc.
+
     const api = useApi();
     const [data, setData] = useState();
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -34,7 +36,7 @@ const useFetch = () => {
     const {csrf_token, setcsrf_token} = useCSRFTokenContext();
     const {user, setUser} = useUserContext();
 
-    // Needs form to send data over
+
     const getToken = async (loginData: UserAuth) => {
         setIsLoading(true);
         setError(null);
