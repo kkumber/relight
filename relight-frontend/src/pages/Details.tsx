@@ -3,6 +3,8 @@ import FetchData from "../pages/Home"
 import { useLocation, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import CommentForm from "../components/CommentForm";
+import RenderComments from "../components/RenderComments";
+import { UserComment } from "../components/RenderComments";
 
 export interface Book {
     id: number,
@@ -53,8 +55,6 @@ const RenderBooks = () => {
   }, [bookDetails, bookComments])
 
 
-
-
   return (
     <>
     <section>
@@ -76,6 +76,11 @@ const RenderBooks = () => {
     <section>
       <header>
         <h2>Comments</h2>
+        { userComments &&
+          userComments.map(userComment => {
+            <RenderComments userComment={userComment} />
+          })
+        }
       </header>
     </section>
     </>
