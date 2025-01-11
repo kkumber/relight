@@ -20,10 +20,7 @@ interface PostData {
     data: object,
 }
 
-export interface FetchReturns {
-    data: object,
-    
-}
+
 
 const useFetch = () => {
     const api = useApi();

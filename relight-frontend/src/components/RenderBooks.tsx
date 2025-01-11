@@ -1,4 +1,4 @@
-import Data from "../pages/Home"
+import {Data} from "../pages/Home"
 
 
 export interface Book {
