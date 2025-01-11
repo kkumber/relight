@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import FetchData from "../pages/Home"
 import { useLocation, useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
+import CommentForm from "../components/CommentForm";
 
 export interface Book {
     id: number,
@@ -23,11 +24,13 @@ const RenderBooks = () => {
   const {slug} = useParams();
   const [book, setBook] = useState<Book>();
   const [userComments, setUserComments] = useState();
+  const bookURL = `library/books/details/${slug}/`;
+  const commentURL = `library/books/details/${slug}/comments/`;
   
   const getBookDetails = async () => {
     if (slug) {
-      await fetchBookDetails(`library/books/details/${slug}/`);
-      await fetchBookComments(`library/books/details/${slug}/comments/`)
+      await fetchBookDetails(bookURL);
+      await fetchBookComments(commentURL);
     }
   };
 
@@ -55,7 +58,7 @@ const RenderBooks = () => {
   return (
     <>
     <section>
-{book && <article key={book.id}>
+    {book && <article key={book.id}>
             <h3>{book.title}</h3>
             <img src={book.book_cover} alt={book.title} />
             <p>Sypnosis: {book.sypnosis} </p>
@@ -63,6 +66,11 @@ const RenderBooks = () => {
             <p>Upload Date: {book.upload_date} </p>
             <p>Uploaded by: {book.uploaded_by} </p>
         </article>}
+    </section>
+
+    <section>
+      <h3>Add Comment</h3>
+      <CommentForm commentURL={commentURL} />
     </section>
 
     <section>
