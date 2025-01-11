@@ -18,6 +18,12 @@ export interface Book {
 }
 
 
+interface BookComments {
+  owner: string,
+  content: string,
+  post_date: string
+}
+
 
 const RenderBooks = () => {
   const {data: bookDetails, isLoading: bookLoading, error: bookError, fetchData: fetchBookDetails} = useFetch();
@@ -25,7 +31,7 @@ const RenderBooks = () => {
 
   const {slug} = useParams();
   const [book, setBook] = useState<Book>();
-  const [userComments, setUserComments] = useState();
+  const [userComments, setUserComments] = useState<BookComments[]>();
   const bookURL = `library/books/details/${slug}/`;
   const commentURL = `library/books/details/${slug}/comments/`;
   
@@ -50,9 +56,14 @@ const RenderBooks = () => {
     }
     if (bookComments) {
       setUserComments(bookComments);
-      console.log(bookComments);
     }
   }, [bookDetails, bookComments])
+
+  useEffect(() => {
+    if (userComments) {
+      console.log(userComments);
+    }
+  }, [userComments])
 
 
   return (
@@ -77,9 +88,11 @@ const RenderBooks = () => {
       <header>
         <h2>Comments</h2>
         { userComments &&
-          userComments.map(userComment => {
-            <RenderComments userComment={userComment} />
-          })
+          userComments.map(userComment => 
+            <div key={userComment.owner}>
+              <RenderComments userComment={userComment} />
+            </div>
+          )
         }
       </header>
     </section>
