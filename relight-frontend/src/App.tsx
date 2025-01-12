@@ -6,11 +6,13 @@ import Home from "./pages/Home"
 import AuthProvider from "./utils/AuthProvider"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Details from "./pages/Details"
+import Navigation from "./components/Navigation"
 
 
 function App() {
   return (
   <BrowserRouter> 
+  <Navigation />
   <AuthProvider>
     <Routes>
         <Route element={<ProtectedRoute />}>
