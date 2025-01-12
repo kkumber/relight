@@ -1,24 +1,15 @@
-import { useState } from "react";
-import useFetch from "../hooks/useFetch";
+
 
 interface Prop {
-    commentURL: string
+    setContent: React.Dispatch<React.SetStateAction<string | undefined>>
+    handleCommentSubmit: (e: React.FormEvent) => void
 }
 
-const CommentForm = ({commentURL}: Prop) => {
-    const [content, setContent] = useState<string>();
-    const {data, isLoading, error, postData} = useFetch();
-
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        await postData(commentURL, {'content': content});
-    };
+const CommentForm = ({setContent, handleCommentSubmit}: Prop) => {
 
     return (
-    <form onSubmit={handleSubmit}>
-        <textarea name="content" placeholder="Comment..." onChange={(e) => setContent(e.target.value)}
-        value={content}></textarea> <br />
+    <form onSubmit={handleCommentSubmit}>
+        <textarea name="content" placeholder="Comment..." onChange={(e) => setContent(e.target.value)}></textarea> <br />
         <button>Upload Comment</button>
     </form>
   );

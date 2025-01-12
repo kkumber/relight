@@ -3,7 +3,7 @@ interface Prop {
     userComment: UserComment
 }
 
-interface UserComment {
+export interface UserComment {
     owner: string,
     content: string,
     post_date: string
@@ -12,6 +12,7 @@ interface UserComment {
 const RenderComments = ({userComment}: Prop) => {
   return (
     <article>
+      <hr />
         <p>{userComment.owner}</p>
         <p>{userComment.post_date}</p>
         <p>{userComment.content}</p>

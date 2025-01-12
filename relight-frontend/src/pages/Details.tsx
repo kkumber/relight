@@ -26,12 +26,12 @@ interface BookComments {
 
 
 const RenderBooks = () => {
-  const {data: bookDetails, isLoading: bookLoading, error: bookError, fetchData: fetchBookDetails} = useFetch();
+  const {data: bookDetails, isLoading: bookLoading, error: bookError, fetchData: fetchBookDetails, postData} = useFetch();
   const {data: bookComments, isLoading: commentsLoading, error: commentsError, fetchData: fetchBookComments} = useFetch();
-
   const {slug} = useParams();
   const [book, setBook] = useState<Book>();
-  const [userComments, setUserComments] = useState<BookComments[]>();
+  const [userComments, setUserComments] = useState<BookComments[]>([]);
+  const [content, setContent] = useState<string>();
   const bookURL = `library/books/details/${slug}/`;
   const commentURL = `library/books/details/${slug}/comments/`;
   
@@ -39,8 +39,22 @@ const RenderBooks = () => {
     if (slug) {
       await fetchBookDetails(bookURL);
       await fetchBookComments(commentURL);
+      if (bookDetails) {
+        setBook(bookDetails)
+      }
     }
   };
+
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (content) {
+      await postData(commentURL, {'content': content});
+    } else {
+      alert('Comment is empty')
+    }
+    // Call function again to render
+    getBookDetails();
+};
 
 
   useEffect(() => {
@@ -52,18 +66,16 @@ const RenderBooks = () => {
   useEffect(() => {
     if (bookDetails) {
       setBook(bookDetails);
-      console.log(bookDetails);
     }
+  }, [bookDetails])
+
+  useEffect(() => {
     if (bookComments) {
       setUserComments(bookComments);
     }
-  }, [bookDetails, bookComments])
+  }, [bookComments])
 
-  useEffect(() => {
-    if (userComments) {
-      console.log(userComments);
-    }
-  }, [userComments])
+
 
 
   return (
@@ -81,7 +93,7 @@ const RenderBooks = () => {
 
     <section>
       <h3>Add Comment</h3>
-      <CommentForm commentURL={commentURL} />
+      <CommentForm setContent={setContent} handleCommentSubmit={handleCommentSubmit} />
     </section>
 
     <section>
@@ -89,7 +101,7 @@ const RenderBooks = () => {
         <h2>Comments</h2>
         { userComments &&
           userComments.map(userComment => 
-            <div key={userComment.owner}>
+            <div>
               <RenderComments userComment={userComment} />
             </div>
           )
