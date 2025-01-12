@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import FetchData from "../pages/Home"
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useFetch from "../hooks/useFetch";
 import CommentForm from "../components/CommentForm";
 import RenderComments from "../components/RenderComments";
-import { UserComment } from "../components/RenderComments";
+import Loading from "../components/Loading";
+import ErrorMsg from "../components/ErrorMsg";
 
 export interface Book {
     id: number,
@@ -81,6 +81,8 @@ const RenderBooks = () => {
   return (
     <>
     <section>
+    {bookLoading && <Loading />}
+    {bookError && <ErrorMsg error={bookError} />}
     {book && <article key={book.id}>
             <h3>{book.title}</h3>
             <img src={book.book_cover} alt={book.title} />
@@ -99,6 +101,8 @@ const RenderBooks = () => {
     <section>
       <header>
         <h2>Comments</h2>
+        {commentsLoading && <Loading />}
+        {commentsError && <ErrorMsg error={commentsError} />}
         { userComments &&
           userComments.map(userComment => 
             <div>

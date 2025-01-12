@@ -3,6 +3,8 @@ import useFetch from "../hooks/useFetch";
 import AddBookForm from "../components/AddBookForm";
 import RenderBooks from "../components/RenderBooks";
 import { Book } from "../components/RenderBooks";
+import Loading from "../components/Loading";
+import ErrorMsg from "../components/ErrorMsg";
 
 
 export interface FetchData {
@@ -29,7 +31,8 @@ const Home = () => {
     }, [returns])
 
 
-    return ( <div className="home">
+    return (     
+    <div className="home">
         Home
         <section>
             <h2>Submit a Book</h2>
@@ -38,6 +41,8 @@ const Home = () => {
 
         <section>
             <h2>Browse</h2>
+            {isLoading && <Loading />}
+            {error && <ErrorMsg error={error} />}
             {
                 bookList?.results.map(book => 
                     <div key={book.id}>
