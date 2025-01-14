@@ -13,6 +13,7 @@ function App() {
   return (
   <BrowserRouter> 
   <Navigation />
+
   <AuthProvider>
     <Routes>
         <Route element={<ProtectedRoute />}>

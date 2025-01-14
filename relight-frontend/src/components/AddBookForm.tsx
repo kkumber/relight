@@ -11,7 +11,7 @@ const AddBookForm = () => {
   // This 2 values are for file submits (pdf files and images)
   const [pdf_File, setPdf_File] = useState<File>();
   const [book_Cover, setBook_Cover] = useState<File>();
-  const {data, isLoading, error, fetchData, postData} = useFetch();
+  const {postData} = useFetch();
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,9 @@ const AddBookForm = () => {
       formData.append(key, value);
     }
     formData.append('pdf_file', pdf_File!);
-    formData.append('book_cover', book_Cover || '')
+    if (book_Cover) {
+      formData.append('book_cover', book_Cover || '')
+    }
 
     await postData('library/books/', formData);
   }
@@ -56,7 +58,7 @@ const AddBookForm = () => {
       <label htmlFor="author">Author: </label> <br />
       <input type="text" name="author" onChange={handleChange} value={bookForm.author} /> <br />
       <label htmlFor="sypnosis">Sypnosis: </label>
-      <input type="text" name="sypnosis" onChange={handleChange} value={bookForm.sypnosis} /> <br />
+      <input type="text" name="sypnosis" onChange={handleChange} value={bookForm.sypnosis} required={true} /> <br />
       <label htmlFor="pdf_file">Upload PDF: </label>
       <input type="file" name="pdf_file" required={true} onChange={handlePDFChange} /> <br />
       <label htmlFor="book_cover">Upload Book Cover: </label>
