@@ -54,15 +54,15 @@ const AddBookForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="title">Title: </label> <br />
-      <input type="text" name="title" onChange={handleChange} value={bookForm.title} /> <br />
+      <input type="text" name="title" onChange={handleChange} value={bookForm.title} required={true}/> <br />
       <label htmlFor="author">Author: </label> <br />
-      <input type="text" name="author" onChange={handleChange} value={bookForm.author} /> <br />
+      <input type="text" name="author" onChange={handleChange} value={bookForm.author} required={true}/> <br />
       <label htmlFor="sypnosis">Sypnosis: </label>
       <input type="text" name="sypnosis" onChange={handleChange} value={bookForm.sypnosis} required={true} /> <br />
       <label htmlFor="pdf_file">Upload PDF: </label>
       <input type="file" name="pdf_file" required={true} onChange={handlePDFChange} /> <br />
       <label htmlFor="book_cover">Upload Book Cover: </label>
-      <input type="file" name="book_cover" onChange={handleBookCoverChange} /> 
+      <input type="file" name="book_cover" onChange={handleBookCoverChange} required={true}/> 
       <br /><button>Submit</button>
     </form>
   );
