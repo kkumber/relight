@@ -7,16 +7,18 @@ import AuthProvider from "./utils/AuthProvider"
 import ProtectedRoute from "./components/ProtectedRoute"
 import Details from "./pages/Details"
 import Navigation from "./components/Navigation"
+import Header from "./components/Header"
 
 
 function App() {
   return (
+  <div className="px-4 lg:px-8 xl:px-16">
   <BrowserRouter> 
   <Navigation />
-
   <AuthProvider>
     <Routes>
         <Route element={<ProtectedRoute />}>
+          <Header />
           <Route path="/" element={<Home />} />
           <Route path="/details/:slug" element={<Details />} />
         </Route>
@@ -28,6 +30,9 @@ function App() {
     </AuthProvider>
 
   </BrowserRouter>
+
+  </div>
+ 
   )
 }
 

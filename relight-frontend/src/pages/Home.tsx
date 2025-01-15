@@ -5,6 +5,8 @@ import RenderBooks from "../components/RenderBooks";
 import { Book } from "../components/RenderBooks";
 import Loading from "../components/Loading";
 import ErrorMsg from "../components/ErrorMsg";
+import Header from "../components/Header"
+
 
 
 export interface FetchData {
@@ -33,24 +35,34 @@ const Home = () => {
 
     return (     
     <div className="home">
-        Home
+        <Header />
+
         <section>
             <h2>Submit a Book</h2>
             <AddBookForm />
         </section>
 
-        <section>
-            <h2>Browse</h2>
-            {isLoading && <Loading />}
-            {error && <ErrorMsg error={error} />}
-            {
-                bookList?.results.map(book => 
-                    <div key={book.id}>
-                        <RenderBooks book={book} />
-                    </div>
-                )
-            }
-        </section>
+        {/* Main Container */}
+        <div className="">
+            <section>
+                <h2>Trending</h2>
+                <hr />
+                {isLoading && <Loading />}
+                {error && <ErrorMsg error={error} />}
+
+                {/* Grid Container */}
+                <div className="grid-cols-3 gap-4">
+                    {
+                        bookList?.results.map(book => 
+                            <div key={book.id}>
+                                <RenderBooks book={book} />
+                            </div>
+                        )
+                    }
+                </div>
+            </section>
+        </div>
+        
     </div> );
 }
 

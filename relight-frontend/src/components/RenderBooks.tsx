@@ -27,8 +27,7 @@ const RenderBooks = ({book}: BookData) => {
             <h3>{book.title}</h3>
             </Link>
             <img src={book.book_cover} alt={book.title} />
-            <p>Written by: {book.author} </p>
-            <p>Upload Date: {book.upload_date} </p>
+            <p>Uploaded by: {book.uploaded_by} </p>
         </article>
   );
 };
